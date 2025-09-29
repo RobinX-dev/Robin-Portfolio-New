@@ -166,52 +166,7 @@
     <p id="lat">Fetching location...</p>
     <p id="pincode">Fetching pincode...</p>
 
-    <script>
-        if ("geolocation" in navigator) {
-            const options = {
-                enableHighAccuracy: true, // Request high-accuracy location
-                timeout: 5000, // Maximum time to wait for location
-                maximumAge: 0 // Do not use a cached position
-            };
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    document.getElementById("lat").innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
-
-                    console.log("High-Accuracy Coordinates:", latitude + ',' + longitude);
-
-                    // Call the Nominatim API to get the pincode
-                    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
-                        .then(response => response.json()) // Parse the response as JSON
-                        .then(data => {
-                            // Extract the pincode (postcode) from the response
-                            const pincode = data.address.postcode;
-                            if (pincode) {
-                                document.getElementById('pincode').innerText = `Pincode: ${pincode}`;
-                                console.log("Pincode:", pincode);
-                            } else {
-                                document.getElementById('pincode').innerText = "Pincode not found.";
-                                console.error("Pincode not found in the response.");
-                            }
-                        })
-                        .catch(error => {
-                            document.getElementById('pincode').innerText = "Error fetching pincode.";
-                            console.error("Error fetching pincode:", error);
-                        });
-                },
-                (error) => {
-                    document.getElementById("lat").innerText = "Error getting location.";
-                    console.error("Error getting high-accuracy location:", error);
-                },
-                options
-            );
-        } else {
-            document.getElementById("lat").innerText = "Geolocation is not supported by this browser.";
-            console.error("Geolocation is not supported by this browser.");
-        }
-    </script>
+    
 
                     </div>
                 </div> <!-- end about-expertise -->
